@@ -44,6 +44,14 @@ Vagrant.configure("2") do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
+  # FIXME: we are using an ancient version of debian, so apt does
+  #        not work out of the box. We handle this below, with
+  #        config.vm.provision. However, vagrant by default tries to
+  #        setup this shared folder with rsync, which means it tries
+  #        to install rsync in the VM before config.vm.provision,
+  #        which fails. As a stopgap measure, we disable the shared
+  #        folder.
+  config.vm.synced_folder ".", "/vagrant", disabled: true
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -63,8 +71,10 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
+  # FIXME: workaround for debian strech being deprecated
   config.vm.provision "shell", inline: <<-SHELL
-    apt-get update
+    sed -E -i -e 's/(security|deb).debian.org/archive.debian.org/g' /etc/apt/sources.list
+    apt-get update -y
     apt-get install -y aptitude python python-setuptools
   SHELL
 
