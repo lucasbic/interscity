@@ -63,7 +63,11 @@
   command: docker run hello-world
 
 - name: install pip
-  easy_install: name=pip state=latest
+  apt:
+    pkg:
+      - python-pip
+      - python3-pip
+    state: present
 
 - name: install docker
   pip: name=docker
