@@ -1,12 +1,16 @@
 ---
-- name: Remove "docker" package
-  apt: name=docker state=absent
-
-- name: Remove "docker-engine" package
-  apt: name=docker-engine state=absent
-
-- name: Remove "docker.io" package
-  apt: name=docker.io state=absent
+- name: Remove distribution version of docker packages
+  apt:
+    pkg:
+      - docker
+      - docker-engine
+      - docker.io
+      - docker-compose
+      - podman-docker
+      - docker-doc
+      - containerd
+      - runc
+    state: absent
 
 - name: install apt-transport-https
   apt:
@@ -41,7 +45,7 @@
 
 - name: add docker repository
   apt_repository:
-    repo: 'deb http://download.docker.com/linux/debian buster stable'
+    repo: 'deb http://download.docker.com/linux/debian bookworm stable'
     state: present
 
 - name: update apt cache
@@ -64,10 +68,10 @@
 
 - name: install pip
   apt:
-    pkg:
-      - python-pip
-      - python3-pip
+    name: python3-pip
     state: present
 
-- name: install docker
-  pip: name=docker
+- name: install docker support for python
+  apt:
+    name: python3-docker
+    state: present

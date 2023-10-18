@@ -1,9 +1,9 @@
 ---
 - name: Install python dependencies
-  pip:
-    name:
-      - jsondiff
-      - pyyaml
+  apt:
+    pkg:
+      - python3-jsondiff
+      - python3-yaml
 - name: Set data path
   set_fact:
     swarm_deployments_data_path: "{{ swarm_deployments_path }}/data"
