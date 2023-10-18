@@ -1,9 +1,9 @@
-image: ruby:2.7
+image: ruby:2.7.2-buster
 
 services:
-  - mongo:latest
-  - redis:latest
-  - postgres:latest
+  - mongo:3.4
+  - redis:5.0.2
+  - postgres:9.5
 
 variables:
   MONGO_USER: admin
@@ -212,7 +212,7 @@ deploy:
 
 post_deploy_integration_test:
   stage: post_deploy_integration_test
-  image: ruby:2.7
+  image: ruby:2.7.2-buster
   only:
     - master
   before_script:

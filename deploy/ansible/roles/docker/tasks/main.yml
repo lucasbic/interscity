@@ -41,7 +41,7 @@
 
 - name: add docker repository
   apt_repository:
-    repo: 'deb http://download.docker.com/linux/debian stretch stable'
+    repo: 'deb http://download.docker.com/linux/debian buster stable'
     state: present
 
 - name: update apt cache
