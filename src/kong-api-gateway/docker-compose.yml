@@ -54,7 +54,7 @@ services:
 
   swagger-docs:
     container_name: swagger-docs
-    image: nginx
+    image: nginx:1.10.3
     ports:
       - 8888:80
     volumes:
