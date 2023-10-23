@@ -6,7 +6,11 @@ The version numbers below try to follow the conventions at http://semver.org/.
 
 ## Unreleased
 
-* Upgrade to Ruby 2.7.2
+## v0.2.1 - 23/10/2023
+
+* Upgrade to Ruby 2.7.8, mongo 3.6, and debian buster
+* Fixate most gem and image versions
+* Upgrade deploy scripts to debian bookworm
 * Cover resource-adaptor with unit tests
 * Add external backup option on deploy setup
 * Handle intermitent CI deployment failures
