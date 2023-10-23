@@ -3,7 +3,7 @@ version: '2'
 services:
   mongo:
     container_name: data-collector-mongo
-    image: 'mongo:3.4'
+    image: 'mongo:3.6'
     environment:
       AUTH: 'no'
     volumes:
