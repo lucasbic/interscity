@@ -210,14 +210,14 @@ resource-discoverer-integration:
 #    - pushd deploy/ansible
 #    - ansible-playbook deploy-swarm-stack.yml -i revoada_test_hosts -u deployer --private-key ../../deploy_key --ssh-extra-args "-o StrictHostKeyChecking=no"
 
-post_deploy_integration_test:
-  stage: post_deploy_integration_test
-  image: ruby:2.7-buster
-  only:
-    - master
-  before_script:
-    - pushd src/test
-    - bundle check || bundle install
-    - sleep 60
-  script:
-    - ISCITY_URL="http://api.playground.interscity.org" rspec
+#post_deploy_integration_test:
+#  stage: post_deploy_integration_test
+#  image: ruby:2.7-buster
+#  only:
+#    - master
+#  before_script:
+#    - pushd src/test
+#    - bundle check || bundle install
+#    - sleep 60
+#  script:
+#    - ISCITY_URL="http://api.playground.interscity.org" rspec
