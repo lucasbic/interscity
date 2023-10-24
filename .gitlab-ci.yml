@@ -125,90 +125,90 @@ resource-discoverer-integration:
     - bundle check || bundle install
     - bundle exec rails spec:integration
 
-build_and_push_docker:
-  stage: build
-  services:
-    - docker:dind
-  variables:
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_DRIVER: overlay2
-  image: docker:stable
-  only:
-    - master
-  before_script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-  script:
-    - cd src
-    # base
-    - docker build --pull -t $CI_REGISTRY/interscity/interscity-platform/interscity-platform/base .
-    - docker push $CI_REGISTRY/interscity/interscity-platform/interscity-platform/base
-    - docker pull registry.gitlab.com/interscity/interscity-platform/interscity-platform/base:latest
-    # actuator-controller
-    - cd actuator-controller
-    - docker build --pull -t $CI_REGISTRY/interscity/interscity-platform/interscity-platform/actuator-controller .
-    - docker push $CI_REGISTRY/interscity/interscity-platform/interscity-platform/actuator-controller
-    - cd ..
-    # data-collector
-    - cd data-collector
-    - docker build --pull -t $CI_REGISTRY/interscity/interscity-platform/interscity-platform/data-collector .
-    - docker push $CI_REGISTRY/interscity/interscity-platform/interscity-platform/data-collector
-    - cd ..
-    # resource-adaptor
-    - cd resource-adaptor
-    - docker build --pull -t $CI_REGISTRY/interscity/interscity-platform/interscity-platform/resource-adaptor .
-    - docker push $CI_REGISTRY/interscity/interscity-platform/interscity-platform/resource-adaptor
-    - cd ..
-    # resource-cataloguer
-    - cd resource-cataloguer
-    - docker build --pull -t $CI_REGISTRY/interscity/interscity-platform/interscity-platform/resource-cataloguer .
-    - docker push $CI_REGISTRY/interscity/interscity-platform/interscity-platform/resource-cataloguer
-    - cd ..
-    # resource-discoverer
-    - cd resource-discoverer
-    - docker build --pull -t $CI_REGISTRY/interscity/interscity-platform/interscity-platform/resource-discoverer .
-    - docker push $CI_REGISTRY/interscity/interscity-platform/interscity-platform/resource-discoverer
-    - cd ..
-    # kong-api-gateway
-    - cd kong-api-gateway
-    - docker build --pull -t $CI_REGISTRY/interscity/interscity-platform/interscity-platform/kong-api-gateway .
-    - docker push $CI_REGISTRY/interscity/interscity-platform/interscity-platform/kong-api-gateway
-    - cd ..
+#build_and_push_docker:
+#  stage: build
+#  services:
+#    - docker:dind
+#  variables:
+#    DOCKER_HOST: tcp://docker:2375
+#    DOCKER_DRIVER: overlay2
+#  image: docker:stable
+#  only:
+#    - master
+#  before_script:
+#    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#  script:
+#    - cd src
+#    # base
+#    - docker build --pull -t $CI_REGISTRY/interscity/interscity-platform/interscity-platform/base .
+#    - docker push $CI_REGISTRY/interscity/interscity-platform/interscity-platform/base
+#    - docker pull registry.gitlab.com/interscity/interscity-platform/interscity-platform/base:latest
+#    # actuator-controller
+#    - cd actuator-controller
+#    - docker build --pull -t $CI_REGISTRY/interscity/interscity-platform/interscity-platform/actuator-controller .
+#    - docker push $CI_REGISTRY/interscity/interscity-platform/interscity-platform/actuator-controller
+#    - cd ..
+#    # data-collector
+#    - cd data-collector
+#    - docker build --pull -t $CI_REGISTRY/interscity/interscity-platform/interscity-platform/data-collector .
+#    - docker push $CI_REGISTRY/interscity/interscity-platform/interscity-platform/data-collector
+#    - cd ..
+#    # resource-adaptor
+#    - cd resource-adaptor
+#    - docker build --pull -t $CI_REGISTRY/interscity/interscity-platform/interscity-platform/resource-adaptor .
+#    - docker push $CI_REGISTRY/interscity/interscity-platform/interscity-platform/resource-adaptor
+#    - cd ..
+#    # resource-cataloguer
+#    - cd resource-cataloguer
+#    - docker build --pull -t $CI_REGISTRY/interscity/interscity-platform/interscity-platform/resource-cataloguer .
+#    - docker push $CI_REGISTRY/interscity/interscity-platform/interscity-platform/resource-cataloguer
+#    - cd ..
+#    # resource-discoverer
+#    - cd resource-discoverer
+#    - docker build --pull -t $CI_REGISTRY/interscity/interscity-platform/interscity-platform/resource-discoverer .
+#    - docker push $CI_REGISTRY/interscity/interscity-platform/interscity-platform/resource-discoverer
+#    - cd ..
+#    # kong-api-gateway
+#    - cd kong-api-gateway
+#    - docker build --pull -t $CI_REGISTRY/interscity/interscity-platform/interscity-platform/kong-api-gateway .
+#    - docker push $CI_REGISTRY/interscity/interscity-platform/interscity-platform/kong-api-gateway
+#    - cd ..
 
-deploy_dry_run:
-  stage: test
-  image: python
-  services: []
-  before_script:
-    - echo 'deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main' > /etc/apt/sources.list.d/ansible.list
-    - apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
-    - apt-get update -y
-    - apt-get install -y ansible
-    - echo $DEPLOY_KEY | base64 -d > deploy_key # encoded with `base64 deploy_key | tr -d '\n'`
-    - echo $VAULT_PASS > deploy/ansible/.vault-pass.txt
-    - "sed -i 's/enabled_db_backups: false/enabled_db_backups: true/g' deploy/ansible/group_vars/all"
-    - chmod 600 deploy_key
-  script:
-    - pushd deploy/ansible
-    - ansible-playbook deploy-swarm-stack.yml -C -i revoada_test_hosts -u deployer --private-key ../../deploy_key --ssh-extra-args "-o StrictHostKeyChecking=no"
+#deploy_dry_run:
+#  stage: test
+#  image: python
+#  services: []
+#  before_script:
+#    - echo 'deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main' > /etc/apt/sources.list.d/ansible.list
+#    - apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
+#    - apt-get update -y
+#    - apt-get install -y ansible
+#    - echo $DEPLOY_KEY | base64 -d > deploy_key # encoded with `base64 deploy_key | tr -d '\n'`
+#    - echo $VAULT_PASS > deploy/ansible/.vault-pass.txt
+#    - "sed -i 's/enabled_db_backups: false/enabled_db_backups: true/g' deploy/ansible/group_vars/all"
+#    - chmod 600 deploy_key
+#  script:
+#    - pushd deploy/ansible
+#    - ansible-playbook deploy-swarm-stack.yml -C -i revoada_test_hosts -u deployer --private-key ../../deploy_key --ssh-extra-args "-o StrictHostKeyChecking=no"
 
-deploy:
-  stage: deploy
-  image: python
-  only:
-    - master
-  services: []
-  before_script:
-    - echo 'deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main' > /etc/apt/sources.list.d/ansible.list
-    - apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
-    - apt-get update -y
-    - apt-get install -y ansible
-    - echo $DEPLOY_KEY | base64 -d > deploy_key # encoded with `base64 deploy_key | tr -d '\n'`
-    - echo $VAULT_PASS > deploy/ansible/.vault-pass.txt
-    - "sed -i 's/enabled_db_backups: false/enabled_db_backups: true/g' deploy/ansible/group_vars/all"
-    - chmod 600 deploy_key
-  script:
-    - pushd deploy/ansible
-    - ansible-playbook deploy-swarm-stack.yml -i revoada_test_hosts -u deployer --private-key ../../deploy_key --ssh-extra-args "-o StrictHostKeyChecking=no"
+#deploy:
+#  stage: deploy
+#  image: python
+#  only:
+#    - master
+#  services: []
+#  before_script:
+#    - echo 'deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main' > /etc/apt/sources.list.d/ansible.list
+#    - apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
+#    - apt-get update -y
+#    - apt-get install -y ansible
+#    - echo $DEPLOY_KEY | base64 -d > deploy_key # encoded with `base64 deploy_key | tr -d '\n'`
+#    - echo $VAULT_PASS > deploy/ansible/.vault-pass.txt
+#    - "sed -i 's/enabled_db_backups: false/enabled_db_backups: true/g' deploy/ansible/group_vars/all"
+#    - chmod 600 deploy_key
+#  script:
+#    - pushd deploy/ansible
+#    - ansible-playbook deploy-swarm-stack.yml -i revoada_test_hosts -u deployer --private-key ../../deploy_key --ssh-extra-args "-o StrictHostKeyChecking=no"
 
 post_deploy_integration_test:
   stage: post_deploy_integration_test
