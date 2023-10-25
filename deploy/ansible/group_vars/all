@@ -17,12 +17,12 @@ kong_admin_port: 8001
 mongo_port: 27017
 
 # Docker
-resource_cataloguer_docker_image: registry.gitlab.com/interscity/interscity-platform/interscity-platform/resource-cataloguer:latest
-resource_adaptor_docker_image: registry.gitlab.com/interscity/interscity-platform/interscity-platform/resource-adaptor:latest
-data_collector_docker_image: registry.gitlab.com/interscity/interscity-platform/interscity-platform/data-collector:latest
-actuator_controller_docker_image: registry.gitlab.com/interscity/interscity-platform/interscity-platform/actuator-controller:latest
-resource_discoverer_docker_image: registry.gitlab.com/interscity/interscity-platform/interscity-platform/resource-discoverer:latest
-kong_api_gateway_docker_image: registry.gitlab.com/interscity/interscity-platform/interscity-platform/kong-api-gateway:latest
+resource_cataloguer_docker_image: registry.gitlab.com/interscity/interscity-platform/interscity-platform/resource-cataloguer:0.2.1
+resource_adaptor_docker_image: registry.gitlab.com/interscity/interscity-platform/interscity-platform/resource-adaptor:0.2.1
+data_collector_docker_image: registry.gitlab.com/interscity/interscity-platform/interscity-platform/data-collector:0.2.1
+actuator_controller_docker_image: registry.gitlab.com/interscity/interscity-platform/interscity-platform/actuator-controller:0.2.1
+resource_discoverer_docker_image: registry.gitlab.com/interscity/interscity-platform/interscity-platform/resource-discoverer:0.2.1
+kong_api_gateway_docker_image: registry.gitlab.com/interscity/interscity-platform/interscity-platform/kong-api-gateway:0.2.1
 
 # Postgresql
 postgres_image: 'postgres:9.5'
