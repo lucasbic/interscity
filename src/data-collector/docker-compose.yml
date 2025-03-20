@@ -35,7 +35,10 @@ services:
       MONGO_PORT: 27017
       MONGO_CACHE_HOST: 'data-collector-mongo'
       MONGO_CACHE_PORT: 27017
-      RABBITMQ_HOST: 'rabbitmq'
+      #RABBITMQ_HOST: 'rabbitmq'
+      - AWS_ACCESS_KEY_ID=access-key-id
+      - AWS_SECRET_ACCESS_KEY=secret-access-key
+      - SQS_QUEUE_URL=https://sqs.sa-east-1.amazonaws.com/123456789012/queue1
       KONG_URI: 'http://kong:8001'
       SELF_HOST: 'data-collector:3000'
       REGISTER_METHOD: 'target'

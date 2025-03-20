@@ -55,6 +55,12 @@ Vagrant.configure("2") do |config|
   #
     # Customize the amount of memory on the VM:
     vb.memory = "4096"
+
+    # By default Vagrant will not set the NIC type for network interfaces.
+    # This allows VirtualBox to apply the default NIC type for the guest.
+    # If you would like to use a specific NIC type by default for guests, set the default_nic_type option:
+    # vb.default_nic_type = "82543GC"
+
   end
   #
   # View the documentation for the provider you are using for more
@@ -64,6 +70,7 @@ Vagrant.configure("2") do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
+    export DEBIAN_FRONTEND=noninteractive
     apt-get update -y
     apt-get install -y aptitude python3 python3-setuptools
   SHELL
