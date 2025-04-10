@@ -26,7 +26,6 @@ all:
         gateway-machine:
   vars:
     kong: 10.10.10.104
-    rabbitmq: 10.10.10.104
     mongo: 10.10.10.104
     postgres_host: 10.10.10.104
     swarm_manager_ip: 10.10.10.104

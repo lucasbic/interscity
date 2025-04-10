@@ -70,16 +70,7 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-        delay: 360s
-  rabbitmq:
-    image: {{ rabbitmq_image }}
-    ports:
-      - 5672:5672
-    networks:
-      - swarm-network
-    deploy:
-      restart_policy:
-        delay: 5s
+        delay: "360s"
   redis:
     image: {{ redis_image }}
     ports:
@@ -102,7 +93,10 @@ services:
       POSTGRES_USER: "{{ postgres_rescat_user }}"
       POSTGRES_PASSWORD: "{{ postgres_rescat_password }}"
       SECRET_KEY_BASE: "{{ secret_key_base }}"
-      RABBITMQ_HOST: "rabbitmq"
+      AWS_ACCESS_KEY_ID: "{{ aws_access_key }}"
+      AWS_SECRET_ACCESS_KEY: "{{ aws_secret_key }}"
+      AWS_REGION: "{{ aws_region }}"
+      SQS_QUEUE_URL: "{{ sqs_queue_url }}"
       REGISTER_METHOD: "target"
       KONG_URI: "http://{{ kong }}:{{ kong_admin_port }}"
       SELF_HOST: "resourcecataloguer:{{ resource_cataloguer_port }}"
@@ -129,7 +123,10 @@ services:
       POSTGRES_USER: "{{ postgres_resadapt_user }}"
       POSTGRES_PASSWORD: "{{ postgres_resadapt_password }}"
       SECRET_KEY_BASE: "{{ secret_key_base }}"
-      RABBITMQ_HOST: rabbitmq
+      AWS_ACCESS_KEY_ID: "{{ aws_access_key }}"
+      AWS_SECRET_ACCESS_KEY: "{{ aws_secret_key }}"
+      AWS_REGION: "{{ aws_region }}"
+      SQS_QUEUE_URL: "{{ sqs_queue_url }}"
       CATALOGUER_HOST: "kong:{{ kong_port }}/catalog"
       REGISTER_METHOD: "none"
       ADAPTOR_HOST: "kong:{{ kong_port }}/adaptor"
@@ -155,7 +152,10 @@ services:
       POSTGRES_USER: "{{ postgres_resadapt_user }}"
       POSTGRES_PASSWORD: "{{ postgres_resadapt_password }}"
       SECRET_KEY_BASE: "{{ secret_key_base }}"
-      RABBITMQ_HOST: rabbitmq
+      AWS_ACCESS_KEY_ID: "{{ aws_access_key }}"
+      AWS_SECRET_ACCESS_KEY: "{{ aws_secret_key }}"
+      AWS_REGION: "{{ aws_region }}"
+      SQS_QUEUE_URL: "{{ sqs_queue_url }}"
       CATALOGUER_HOST: "kong:{{ kong_port }}/catalog"
       REGISTER_METHOD: "target"
       ADAPTOR_HOST: "kong:{{ kong_port }}/adaptor"
@@ -180,7 +180,7 @@ services:
     environment:
       AUTH: "no"
   datacollector:
-    image: {{ data_collector_docker_image }}
+    image: interscity/data-collector-sqs:latest
     ports:
       - "{{ data_collector_port }}:{{ data_collector_port }}"
     deploy:
@@ -199,7 +199,10 @@ services:
       MONGO_CACHE_HOST: mongodb
       MONGO_CACHE_PORT: "{{ mongo_port }}"
       SECRET_KEY_BASE: "{{ secret_key_base }}"
-      RABBITMQ_HOST: rabbitmq
+      AWS_ACCESS_KEY_ID: "{{ aws_access_key }}"
+      AWS_SECRET_ACCESS_KEY: "{{ aws_secret_key }}"
+      AWS_REGION: "{{ aws_region }}"
+      SQS_QUEUE_URL: "{{ sqs_queue_url }}"
       REGISTER_METHOD: "target"
       KONG_URI: "http://kong:{{ kong_admin_port }}"
       SELF_HOST: "datacollector:{{ data_collector_port }}"
@@ -217,7 +220,10 @@ services:
       RAILS_ENV: "{{ rails_env }}"
       RAILS_MAX_THREADS: 200
       SECRET_KEY_BASE: "{{ secret_key_base }}"
-      RABBITMQ_HOST: rabbitmq
+      AWS_ACCESS_KEY_ID: "{{ aws_access_key }}"
+      AWS_SECRET_ACCESS_KEY: "{{ aws_secret_key }}"
+      AWS_REGION: "{{ aws_region }}"
+      SQS_QUEUE_URL: "{{ sqs_queue_url }}"
       CATALOGUER_HOST: "kong:{{ kong_port }}/catalog"
       DATACOLLECTOR_HOST: "kong:{{ kong_port }}/collector"
       REGISTER_METHOD: "target"
@@ -241,7 +247,10 @@ services:
       MONGO_HOST: mongodb
       MONGO_PORT: "{{ mongo_port }}"
       SECRET_KEY_BASE: "{{ secret_key_base }}"
-      RABBITMQ_HOST: rabbitmq
+      AWS_ACCESS_KEY_ID: "{{ aws_access_key }}"
+      AWS_SECRET_ACCESS_KEY: "{{ aws_secret_key }}"
+      AWS_REGION: "{{ aws_region }}"
+      SQS_QUEUE_URL: "{{ sqs_queue_url }}"
       REGISTER_METHOD: "target"
       KONG_URI: "http://kong:{{ kong_admin_port }}"
       SELF_HOST: "actuatorcontroller:{{ actuator_controller_port }}"

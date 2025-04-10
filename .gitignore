@@ -80,3 +80,7 @@ tmp/
 *.sublime-workspace
 
 **/spec/examples.txt
+
+
+# aws
+.env

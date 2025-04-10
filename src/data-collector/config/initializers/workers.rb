@@ -4,21 +4,15 @@ if Rails.env.development? || Rails.env.production?
 
   WORKERS_LOGGER ||= Logger.new("#{Rails.root}/log/workers.log")
 
-  # Rails.configuration.worker_conn = Bunny.new(
-  #   hostname: SERVICES_CONFIG['services']['rabbitmq'],
-  #   logger: WORKERS_LOGGER,
-  # )
-  # Rails.configuration.worker_conn.start
-
   # Configurar o cliente SQS
   Rails.configuration.sqs_client = Aws::SQS::Client.new(
-    region: 'sa-east-1',
-    access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-    secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+    region: '{{ aws_region }}',
+    access_key_id: ENV['{{ aws_access_key }}'],
+    secret_access_key: ENV['{{ aws_secret_key }}']
   )
 
   # URL da fila SQS
-  Rails.configuration.sqs_queue_url = ENV['SQS_QUEUE_URL']
+  Rails.configuration.sqs_queue_url = ENV['{{ sqs_queue_url }}']
 
   resource_creator_worker = ResourceCreator.new(2, 2)
   resource_creator_worker.perform
